@@ -1,2 +1,2 @@
 console.log("Hello Typescript");
-const a: number = 1;
+const a = 1;
