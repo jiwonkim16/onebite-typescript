@@ -1,52 +1,62 @@
-// Unknown 타입은 모든 타입들의 슈퍼 타입이다.
-// 그러므로 모든 값을 넣을 수 있다. (모든 타입에 대한 업캐스팅 가능)
-function unknownExam() {
-  let a: unknown = 1;
-  let b: unknown = "hello";
-  let c: unknown = true;
-  let d: unknown = null;
-  let e: unknown = undefined;
+// 기본 타입 간의 호환성 : 특정 타입을 다른 타입으로 취급해도 괜찮은지 판단하는 것이었다.
+let num1: number = 10;
+let num2: 10 = 10;
+num1 = num2;
+// num2 = num1;
 
-  //   let unknownVar: unknown;
+// 객체 타입 간의 호환성 : 어떤 객체타입을 다른 객체타입으로 취급해도 괜찮은가?
 
-  //   let num: number = unknownVar;
-  //   let str: string = unknownVar;
-  //   let bool: boolean = unknownVar;
-}
+type Animal = {
+  name: string;
+  color: string;
+};
+type Dog = {
+  name: string;
+  color: string;
+  breed: string;
+};
 
-// never 타입은 계층도 가장 아래 있기 때문에 모든 집합의 부분집합 즉, 공집합을
-// 의미하며, 모든 타입의 서브 타입이다.
-function neverExam() {
-  function neverFunc(): never {
-    while (true) {}
-  }
+let animal: Animal = {
+  name: "기린",
+  color: "yellow",
+};
 
-  let num: number = neverFunc();
-  let str: string = neverFunc();
+let dog: Dog = {
+  name: "돌돌이",
+  color: "brown",
+  breed: "진도",
+};
 
-  //   let never1: never = 10;
-  //   let never: never = "string";
-}
+animal = dog;
+// dog = animal
 
-// void 타입
-function voidExam() {
-  function voidFunc(): void {
-    console.log("gi");
-  }
+type Book = {
+  // 슈퍼타입
+  name: string;
+  price: number;
+};
 
-  let voidVar: void = undefined;
-  //   let voidConst: void = null;
-}
+type ProgrammingBook = {
+  // 서브타입
+  name: string;
+  price: number;
+  skill: string;
+};
 
-// any 타입은 모든 타입의 슈퍼 타입으로 위치하기도 하며,
-// 모든 타입의 서브 타입으로 위치하기도 한다.(never 타입만 제외)
-function anyExam() {
-  let unknownVar: unknown;
-  let anyVar: any;
-  let undefinedVar: undefined;
-  let neverVar: never;
+let book: Book;
+let programmingBook: ProgrammingBook = {
+  name: "한 입 크기로 잘라먹는 리액트",
+  price: 33000,
+  skill: "React",
+};
+book = programmingBook;
+// programmingBook = book; 불가능
 
-  anyVar = unknownVar;
-  undefinedVar = anyVar;
-  // neverVar = anyVar;
-}
+// 초과 프로퍼티 검사
+// 변수를 초기화 할 때 객체 리터럴을 사용하면 발동하는 검사인데
+// 실제 타입에는 정의해놓지 않은 프로퍼티를 작성하면 안되도록 막는 검사이다.
+let book2: Book = {
+  name: "한 입 크기로 잘라먹는 리액트",
+  price: 33000,
+  //   skill: "React",
+};
